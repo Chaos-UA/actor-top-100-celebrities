@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CelebritiesRepository extends MongoRepository<CelebrityActor, String> {
+public interface CelebritiesRepository extends MongoRepository<CelebrityActorDoc, String> {
 
     @Query
-    List<CelebrityActor> findAllByJobs(String job);
+    List<CelebrityActorDoc> findAllByJobs(String job);
 
 }

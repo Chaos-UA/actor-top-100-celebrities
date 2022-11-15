@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,7 +30,9 @@ public class CelebritiesService {
      * @return filtered list of actors in top 100 celebrities.
      */
     public List<CelebrityActor> getCelebrities(String job) {
-        return celebritiesRepo.findAllByJobs(job);
+        return celebritiesRepo.findAllByJobs(job).stream()
+                .map(celebrityActorMapper::toCelebrityActor)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -39,8 +42,8 @@ public class CelebritiesService {
     public void resetCelebrities() {
         log.info("Resetting celebrities");
         List<ImdbActor> imdbActors = imdbService.getTop100CelebrityActors();
-        List<CelebrityActor> celebrityActors = imdbActors.stream()
-                .map(celebrityActorMapper::toCelebrityActor)
+        List<CelebrityActorDoc> celebrityActors = imdbActors.stream()
+                .map(celebrityActorMapper::toCelebrityActorDoc)
                 .toList();
         celebritiesRepo.deleteAll();
         celebritiesRepo.saveAll(celebrityActors);
