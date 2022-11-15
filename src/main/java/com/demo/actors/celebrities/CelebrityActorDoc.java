@@ -4,6 +4,7 @@ import com.demo.actors.common.model.Gender;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ public class CelebrityActorDoc {
     private String name;
     private LocalDate dob;
     private Gender gender;
+
+    @Indexed
     private Set<String> jobs;
     private String imageUri;
 
